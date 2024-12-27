@@ -27,6 +27,9 @@ pub enum Action {
 
     /// Gets the [`Id`] of the latest window.
     GetLatest(oneshot::Sender<Option<Id>>),
+    
+    /// Gets if the given [`Id`] is valid
+    GetIsValid(Id, oneshot::Sender<bool>),
 
     /// Move the window with the left mouse button until the button is
     /// released.
@@ -269,6 +272,13 @@ pub fn resize<T>(id: Id, new_size: Size) -> Task<T> {
 pub fn get_size(id: Id) -> Task<Size> {
     task::oneshot(move |channel| {
         crate::Action::Window(Action::GetSize(id, channel))
+    })
+}
+
+/// Checks if the window ID is valid
+pub fn is_valid(id: Id) -> Task<bool> {
+    task::oneshot(move |channel| {
+        crate::Action::Window(Action::GetIsValid(id, channel))
     })
 }
 

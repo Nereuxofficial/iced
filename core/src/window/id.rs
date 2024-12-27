@@ -13,6 +13,11 @@ impl Id {
     pub fn unique() -> Id {
         Id(COUNT.fetch_add(1, atomic::Ordering::Relaxed))
     }
+    
+    /// Returns an [`Id`] from the given raw u64. The user is required to verify the validity of the resulting [`Id`].
+    pub fn from_raw(raw: u64) -> Id {
+        Id(raw)
+    }
 }
 
 impl fmt::Display for Id {

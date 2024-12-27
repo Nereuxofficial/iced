@@ -1286,6 +1286,9 @@ fn run_action<P, C>(
                     let _ = channel.send(Size::new(size.width, size.height));
                 }
             }
+            window::Action::GetIsValid(id, channel) => {
+                let _ = channel.send(window_manager.get(id).is_some());
+            }
             window::Action::GetMaximized(id, channel) => {
                 if let Some(window) = window_manager.get_mut(id) {
                     let _ = channel.send(window.raw.is_maximized());
